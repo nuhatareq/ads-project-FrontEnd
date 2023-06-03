@@ -1,0 +1,36 @@
+<p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rowHover]="true" dataKey="id">
+    <ng-template pTemplate="caption">
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5>{{tablename}}</h5>
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="بحث . . ."
+                    class="w-full sm:w-auto " />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr >
+            <th *ngFor="let col of cols ; let i=index" pSortableColumn="{{col}}">
+                {{headers[i]}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr >
+            <td *ngFor="let key of keys">
+                {{ product[key]}}
+            </td>
+            <td>
+                <div class="flex justify-content-center">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning ml-2"
+                        (click)="editProduct(product)"></button>
+                    <button  pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2"
+                        (click)="deleteProduct(product)"></button>
+                    <button *ngIf="btnInfo" pButton pRipple icon="pi pi-info" class="p-button-rounded p-button-info"
+                            (click)="showProductDetails(product)"></button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

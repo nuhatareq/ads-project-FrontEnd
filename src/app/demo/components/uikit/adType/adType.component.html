@@ -1,0 +1,52 @@
+<div class="grid" dir="rtl">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toolbar styleClass="mb-4">
+                <button pButton pRipple label=" اضافة نوع اعلان" class="p-button-success" (click)="openNew()">
+                    <i class="pi pi-plus px-2 mt-1"></i>
+                </button>
+            </p-toolbar>
+            <app-table_name-options [products]="adtypes" [cols]="cols" tablename="انواع الاعلانات"
+                (filter)="onGlobalFilter($event)" (updateElement)="editProduct($event)"
+                (deleteElement)="deleteProduct($event)" [headers]="headers" [keys]="keys"></app-table_name-options>
+        </div>
+        <!-- here is the dialog needed to add a new ad type-->
+        <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" [header]="
+                isEdit === false ? 'اضافة نوع اعلان' : 'تعديل نوع الاعلان'
+            " [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <form [formGroup]="addAdtype">
+                    <div class="field ">
+                        <label> اسم نوع الاعلان </label>
+                        <input class=" mt-2" type="text" pInputText id="name" required formControlName="name"
+                            autofocus [ngClass]="{
+                                'ng-invalid ng-dirty':submitted && !product.name}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">الاسم مطلوب.</small>
+                    </div>
+                </form>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button [disabled]="addAdtype.invalid" pButton pRipple label="حفظ"
+                    class="p-button-outlined p-button-success"
+                    (click)="isEdit === true? updateSelectedAdType(): save()"></button>
+                <button pButton pRipple label="الغاء" class="p-button-outlined p-button-danger"
+                    (click)="hideDialog()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- here is the dialog needed to show a confirm message for delete the selected ad type-->
+        <p-dialog [(visible)]="deleteProductDialog" header="تأكيد" [modal]="true">
+            <div class="flex align-items-center justify-content-center ">
+                <span>هل انت متأكد من حذف العنصر</span>
+                <i class="pi pi-exclamation-triangle mr-3 fs-2 text-danger"></i>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple class="p-button-outlined p-button-success" label="نعم"
+                    (click)="confirmDelete()"></button>
+                <button pButton pRipple class="p-button-outlined p-button-danger" label="لا"
+                    (click)="deleteProductDialog = false"> </button>
+
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

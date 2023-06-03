@@ -1,0 +1,161 @@
+    <div class="card">
+        <h4>اضافة طلب معاينة</h4>
+        <form [formGroup]="previewForm">
+            <div class="row">
+                <p-toolbar styleClass="mb-4">
+                    <div class="col-5">
+                        <label for="" class="fw-bold">الشركة :</label>
+                        <p-dropdown formControlName="companyIdd" [options]="allCompanies" optionLabel="companyName"
+                            (onChange)="choosenSelect($event , 'company')" placeholder="ادخل الشركة" styleClass="editeSize"></p-dropdown>
+                        <small class="ng-dirty ng-invalid"
+                             *ngIf="previewForm.controls['companyIdd'].invalid && previewForm.controls['companyIdd'].touched">
+                            <span class="text-danger">الحقل مطلوب *. </span>
+                        </small>
+                    </div>
+                    <div class="col-5">
+                        <label for="" class="fw-bold">المنطقة :</label>
+                        <p-dropdown formControlName="regionIdd" [options]="allRegions" optionLabel="name"
+                            (onChange)="choosenSelect($event , 'region')"  placeholder=" ادخل المنطقة " styleClass="editeSize"></p-dropdown>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="previewForm.controls['regionId'].invalid && previewForm.controls['regionId'].touched">
+                            <span class="text-danger">الحقل مطلوب *. </span>
+                        </small>
+                    </div>
+                </p-toolbar>
+            </div>
+            <form [formGroup]="adForm" class="card">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="" class="fw-bold">الطريق :</label>
+                                <p-dropdown formControlName="roadIdd" [options]="allRoads" optionLabel="name"
+                                    (onChange)="choosenSelect($event , 'road')" placeholder=" ادخل الطريق "
+                                    styleClass="editeSize"></p-dropdown>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="adForm.controls['roadId'].invalid && adForm.controls['roadId'].touched">
+                                    <span class="text-danger">الحقل مطلوب *. </span>
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <label for="" class="fw-bold">نوع الاعلان :</label>
+                                <p-dropdown formControlName="adTypeIdd" [options]="allAdTypes" optionLabel="name"
+                                    (onChange)="choosenSelect($event , 'adType')" placeholder=" ادخل نوع الاعلان "
+                                    styleClass="editeSize"></p-dropdown>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="adForm.controls['adTypeId'].invalid && adForm.controls['adTypeId'].touched">
+                                    <span class="text-danger">الحقل مطلوب *. </span>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <app-input [formName]="adForm" controlName="location" placeholderText=" ادخل الموقع   "
+                                    labelName="   الموقع :" inputType="text"></app-input>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="adForm.controls['location'].invalid && adForm.controls['location'].dirty &&
+                                    adForm.controls['location'].touched">
+                                    <span class="text-danger">الحقل مطلوب *. </span>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <app-input [formName]="adForm" controlName="siteDescription" placeholderText=" ادخل وصف للموقع   "
+                                    labelName="   وصف الموقع :" inputType="text"></app-input>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="adForm.controls['siteDescription'].invalid && adForm.controls['siteDescription'].touched">
+                                    <span class="text-danger">الحقل مطلوب *. </span>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <app-input [formName]="adForm" controlName="numberOfFaces" placeholderText=" ادخل عدد الاوجه
+                                                                            " labelName="   عدد الاوجه :"
+                                    inputType="number"></app-input>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="adForm.controls['numberOfFaces'].invalid && adForm.controls['numberOfFaces'].touched">
+                                    <span class="text-danger">الحقل مطلوب *. </span>
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <app-input [formName]="adForm" controlName="previewValue" placeholderText=" ادخل قيمة المعاينة
+                                                                            " labelName="   قيمة المعاينة :"
+                                    inputType="number"></app-input>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="adForm.controls['previewValue'].invalid && adForm.controls['previewValue'].touched">
+                                    <span class="text-danger">الحقل مطلوب *. </span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="col-12 card"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2 mx-auto ">
+                        <button pButton pRipple class="p-button-success w-100 justify-content-center" (click)="addAdtoFormArray()"
+                        [disabled]="adForm.invalid">
+                            <span class="ms-2 fw-bold">اضافة</span>
+                            <i class="pi pi-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <app-table_name-options [products]="allADs" [cols]="cols" tablename=" الاعلانات" (filter)="onGlobalFilter($event)"
+                [headers]="adsHeadsTable" [keys]="keys" [btnInfo]="false"></app-table_name-options>
+
+            <div class="row">
+                <div class="col-2 mx-auto ">
+                    <button pButton pRipple class="p-button-success w-100 justify-content-center" (click)="saveADs()">
+                        <span class=" ms-2 fw-bold">حفظ</span>
+                        <i class="pi pi-check"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+             <form [formGroup]="paymentDetailsForm" class="mt-5" *ngIf="showPaymentMethodDetailsForm">
+                <div class="row">
+                    <div class="col-sm-6 col-m-6 col-lg-3">
+                        <app-input [formName]="paymentDetailsForm" controlName="numberOfAds" labelName="   عدد الاعلانات :"
+                            inputType="text"></app-input>
+                    </div>
+                    <div class="col-sm-6 col-m-6 col-lg-3">
+                        <app-input [formName]="paymentDetailsForm" controlName="valueAddedTax" labelName=" ض.ق المضافة  :"
+                            inputType="text"></app-input>
+                    </div>
+                    <div class="col-sm-6 col-m-6 col-lg-3">
+                        <app-input [formName]="paymentDetailsForm" controlName="totalDemandValue" labelName=" اجمالى قيمة الطلب :"
+                            inputType="text"></app-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-m-6 col-lg-3">
+                        <label for="" class="fw-bold mb-2">طريقة الدفع :</label>
+                        <p-dropdown formControlName="paymentMethodId" [options]="allPaymentMethods" optionLabel="name"
+                            (onChange)="choosenSelect($event,'paymentMethod')" placeholder=" ادخل طريقة الدفع' "
+                            styleClass="editeSize"></p-dropdown>
+                    </div>
+                    <div class="col-sm-6 col-m-6 col-lg-3 ">
+                        <app-input [formName]="paymentDetailsForm" controlName="receiptNumber" placeholderText=" ادخل رقم الايصال  "
+                            labelName="   رقم الايصال :" inputType="text"></app-input>
+                    </div>
+                    <div class="col-sm-6 col-m-6 col-lg-3">
+                        <app-input [formName]="paymentDetailsForm" controlName="groupNumber" placeholderText=" ادخل رقم المجموعة  "
+                            labelName="   رقم المجموعة :" inputType="text"></app-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 flex mx-auto">
+                        <button pButton pRipple label="حفظ " class="p-button-success ms-2"
+                        [disabled]="paymentDetailsForm.invalid" (click)="updatePaymentMethodForAds()"></button>
+                        <button pButton pRipple label="الغاء" class=" p-button-danger " (click)="canselPayment()"></button>
+                    </div>
+                </div>
+             </form>
+
+    </div>
